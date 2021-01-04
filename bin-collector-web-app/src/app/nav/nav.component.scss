@@ -1,0 +1,33 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.background-with-image{
+  background-image: url(../../assets/background/garbage_truck.png);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: right bottom; 
+  height: 100%;
+}
+
+.background-wrapper{
+  height: 100%;
+  background-color: azure;
+}
+.item-icon{
+  margin-right: 12px;
+}
