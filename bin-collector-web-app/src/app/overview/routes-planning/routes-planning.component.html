@@ -1,0 +1,56 @@
+<mat-drawer-container style="height: 100%; width:100%">
+  <mat-drawer mode="side" opened>
+    <div fxFlex fxLayout="column" class="drawer-content" fxLayoutGap="24px">
+        <button mat-raised-button color="primary" (click)="createRoute()">
+            <mat-icon>design_services</mat-icon>
+            Create Routes
+        </button>
+        <div fxLayout="column" fxLayoutGap="8px">
+            <span>Fullness Threshold</span>
+            <mat-slider thumbLabel tickInterval="1" [formControl]="fullnessThresholdInput" min="0" max="100"></mat-slider>
+        </div>
+        <mat-checkbox color="primary" [checked]="isCircularRoute" (change)="isCiruclarChanged($event)">Circular route</mat-checkbox>
+        <button mat-stroked-button color="primary" (click)="chooseStartLocation()">
+            <ng-container *ngIf="!choosingStart; else Cancel">
+                <mat-icon>pin_drop</mat-icon>
+                Start Location
+            </ng-container>
+            
+        </button>
+        
+        <button mat-stroked-button color="primary" [disabled]="isCircularRoute" (click)="chooseEndLocation()">
+            <ng-container *ngIf="!choosingEnd; else Cancel">
+            <mat-icon>pin_drop</mat-icon>
+            End Location
+            </ng-container>
+        </button>
+        <ng-template #Cancel>
+            <mat-icon>wrong_location</mat-icon>
+            Cancel
+        </ng-template>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="mat-h2" style="margin-bottom: 0;">Assignees</span>
+            <button mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        
+        <div fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <mat-icon class="user-icon">local_shipping</mat-icon>
+                <span>Name of user</span>
+            </div>
+        </div>
+
+    </div>  
+    
+    </mat-drawer>
+
+  <mat-drawer-content>
+    <div class="map-container" [class.choosing-location]="choosingStart || choosingEnd">
+      <div class="map-frame">
+        <div #map id="map"></div>
+      </div>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

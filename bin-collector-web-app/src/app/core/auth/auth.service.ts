@@ -30,7 +30,9 @@ export class AuthService {
     return this._currentUserId$.value;
   }
 
-
+  public get isAuth(): boolean{
+    return this._isLoggedInOrOut$.value;
+  }
   
   public register(user: User): Observable<User> {
     return this._httpClient.post<User>(

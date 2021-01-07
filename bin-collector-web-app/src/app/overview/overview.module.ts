@@ -10,28 +10,42 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { Routes, RouterModule } from '@angular/router';
 import { OverviewComponent } from './overview/overview.component';
+import { WorkersComponent } from './workers/workers.component';
+import { RoutesPlanningComponent } from './routes-planning/routes-planning.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { BinsResolverService } from './bins-resolver.service';
+import {MatSliderModule} from '@angular/material/slider';
 
 const routes: Routes = [
-  { path: 'overview', component: OverviewComponent },
+  { path: 'overview', component: OverviewComponent, resolve: {bins: BinsResolverService} },
+  {path: 'route-planner', component: RoutesPlanningComponent, resolve: {bins: BinsResolverService}},
+  {path: 'workers', component: WorkersComponent},
   {
     path: '**',
     redirectTo: 'overview',
   },
 ];
 @NgModule({
-  declarations: [OverviewComponent],
+  declarations: [OverviewComponent, WorkersComponent, RoutesPlanningComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     FlexModule,
+    MatSidenavModule,
+    MatCheckboxModule,
     MatIconModule,
     MatInputModule,
+    MatSliderModule,
     MatButtonModule,
     MatGridListModule,
     MatCardModule,
     MatSnackBarModule,
   ],
+  providers: [
+    BinsResolverService
+  ]
 })
 export class OverviewModule {}

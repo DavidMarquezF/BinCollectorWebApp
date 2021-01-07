@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { readdir } from 'fs';
 import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
@@ -12,6 +13,10 @@ const routes: Routes = [
     path: "auth",
     loadChildren: () =>
       import("./auth/auth.module").then(m => m.AuthModule)
+  },
+  {
+    path: "**",
+    redirectTo: "overview"
   }
 ];
 

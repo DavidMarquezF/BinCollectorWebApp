@@ -1,0 +1,20 @@
+.map-container {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+ #map, .map-frame{
+      height:100%;
+  }
+
+  .drawer-content{
+    width: 300px; padding: 24px
+  }
+  .user-icon{
+      margin-right: 8px;
+  }
+
+  .choosing-location{
+      cursor: crosshair;
+  }
