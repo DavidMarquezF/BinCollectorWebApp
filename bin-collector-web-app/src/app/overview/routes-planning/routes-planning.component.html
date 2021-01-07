@@ -30,15 +30,18 @@
         </ng-template>
         <div fxLayout="row" fxLayoutAlign="space-between center">
             <span class="mat-h2" style="margin-bottom: 0;">Assignees</span>
-            <button mat-icon-button>
-                <mat-icon>add</mat-icon>
+            <button mat-icon-button (click)="addAssignees()" matTooltip="Select assignees">
+                <mat-icon>how_to_reg</mat-icon>
             </button>
         </div>
         
-        <div fxLayout="column">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <div fxLayout="column" fxLayoutGap="16px">
+            <div fxLayout="row" fxLayoutAlign="start center" *ngFor="let worker of selectedWorkers">
                 <mat-icon class="user-icon">local_shipping</mat-icon>
-                <span>Name of user</span>
+                <span>{{worker.username}}</span>
+            </div>
+            <div *ngIf="selectedWorkers.length <= 0">
+                No workers selected
             </div>
         </div>
 

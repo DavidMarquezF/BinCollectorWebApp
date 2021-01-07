@@ -5,6 +5,7 @@ import { User } from 'src/app/core/auth/user.model';
 import { environment } from 'src/environments/environment';
 import { Bin, LatLng } from '../bin.model';
 import { GraphHopperRouteOptim } from '../overview/test-data';
+import { WorkerGB } from './worker.model';
 var GraphHopperOptimization = require('graphhopper-js-api-client/src/GraphHopperOptimization');
 
 @Injectable()
@@ -14,9 +15,13 @@ export class RoutePlannerService {
     this.ghOptimizer = new GraphHopperOptimization({key: environment.green_hopper_key, profile: "truck"});
   }
 
+  public getUsers(): Observable<WorkerGB[]>{
+    return this._httpClient.get<WorkerGB[]>(environment.appUrl + "user");
+  }
+
   public createRoutes(
     bins: Bin[],
-    users: User[],
+    users: WorkerGB[],
     cirular: boolean,
     startLocation: LatLng,
     endLocation: LatLng

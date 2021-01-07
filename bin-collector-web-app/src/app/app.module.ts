@@ -15,7 +15,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { FlexModule } from '@angular/flex-layout';
-
+ 
 @NgModule({
   declarations: [
     AppComponent,

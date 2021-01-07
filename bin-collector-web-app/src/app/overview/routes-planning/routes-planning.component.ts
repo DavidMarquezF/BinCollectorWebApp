@@ -11,9 +11,11 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import * as L from 'leaflet';
+import { concatMap, filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Bin, LatLng } from '../bin.model';
 import {
@@ -33,6 +35,8 @@ import {
   Solution,
 } from '../overview/test-data';
 import { RoutePlannerService } from './route-planner.service';
+import { UsersChooserComponent } from './users-chooser/users-chooser.component';
+import { WorkerGB } from './worker.model';
 
 @Component({
   selector: 'app-routes-planning',
@@ -52,6 +56,8 @@ export class RoutesPlanningComponent implements OnInit, OnDestroy {
 
   private startMarker: L.Marker | undefined;
   private endMarker: L.Marker | undefined;
+  
+  selectedWorkers!: WorkerGB[];
 
   choosingStart: boolean = false;
   choosingEnd: boolean = false;
@@ -63,12 +69,14 @@ export class RoutesPlanningComponent implements OnInit, OnDestroy {
     private cd: ChangeDetectorRef,
     private _snackbar: MatSnackBar,
     private _routePlannerService: RoutePlannerService,
-    private _activatedRoute: ActivatedRoute
+    private _activatedRoute: ActivatedRoute,
+    private _dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.fullnessThresholdInput = new FormControl(50);
     this.allBins = this._activatedRoute.snapshot.data.bins;
+    this.selectedWorkers =[];
   }
 
   ngOnDestroy(): void {
@@ -90,6 +98,9 @@ export class RoutesPlanningComponent implements OnInit, OnDestroy {
     } else if (!this.isCircularRoute && !this.endLocation) {
       error = 'Must include end of route or set to circular route';
     }
+    else if(this.selectedWorkers.length <= 0){
+      error = 'Must at least select one worker';
+    }
 
     if (!!error) {
       this._snackbar.open(error, undefined, { duration: 1000 });
@@ -99,7 +110,7 @@ export class RoutesPlanningComponent implements OnInit, OnDestroy {
     this._routePlannerService
       .createRoutes(
         this.allBins.filter(bin => bin.fullness >= parseInt(this.fullnessThresholdInput.value)),
-        [{ _id: 'test', username: 'Hello', password: 'asd' }, { _id: 'test2', username: 'Hello', password: 'asd' }],
+        this.selectedWorkers,
         this.isCircularRoute,
         this.startLocation!,
         this.endLocation!
@@ -108,6 +119,13 @@ export class RoutesPlanningComponent implements OnInit, OnDestroy {
         this.pathsLayer.clearLayers();
         this.createRoutes(result);
       });
+  }
+  addAssignees(): void {
+    this._routePlannerService.getUsers()
+    .pipe(
+      concatMap((workers) => this._dialog.open(UsersChooserComponent, {data:{selected: this.selectedWorkers, workers}, autoFocus: false}).afterClosed()),
+      filter(r => !!r)
+      ).subscribe(workers => this.selectedWorkers = workers);
   }
 
   private initMap(): void {

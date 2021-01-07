@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { WorkerGB } from '../routes-planning/worker.model';
 
 @Component({
   selector: 'app-workers',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WorkersComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns = ["name", "type"]
+  workers!: WorkerGB[];
+  constructor(private _activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.workers = this._activatedRoute.snapshot.data.workers;
   }
 
 }

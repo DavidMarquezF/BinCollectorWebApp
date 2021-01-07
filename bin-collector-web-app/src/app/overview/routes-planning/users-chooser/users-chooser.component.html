@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Select trucks</h2>
+<mat-dialog-content style="width: 400px" fxLayout="column" fxLayoutGap="16px">
+  <mat-checkbox
+    *ngFor="let worker of workers; let i = index"
+    [formControl]="checkboxControl(i)"
+    >{{ worker.username }}</mat-checkbox
+  >
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button color="accent" (click)="selectWorkers()">Select</button>
+</mat-dialog-actions>

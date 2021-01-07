@@ -16,18 +16,23 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { BinsResolverService } from './bins-resolver.service';
 import {MatSliderModule} from '@angular/material/slider';
+import { UsersChooserComponent } from './routes-planning/users-chooser/users-chooser.component';
+import {MatDialogModule} from '@angular/material/dialog'; 
+import {MatTooltipModule} from '@angular/material/tooltip'; 
+import { WorkerResolverService } from './worker-resolver.service';
+import {MatTableModule} from '@angular/material/table';
 
 const routes: Routes = [
   { path: 'overview', component: OverviewComponent, resolve: {bins: BinsResolverService} },
   {path: 'route-planner', component: RoutesPlanningComponent, resolve: {bins: BinsResolverService}},
-  {path: 'workers', component: WorkersComponent},
+  {path: 'workers', component: WorkersComponent, resolve: {workers: WorkerResolverService}},
   {
     path: '**',
     redirectTo: 'overview',
   },
 ];
 @NgModule({
-  declarations: [OverviewComponent, WorkersComponent, RoutesPlanningComponent],
+  declarations: [OverviewComponent, WorkersComponent, RoutesPlanningComponent, UsersChooserComponent],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
@@ -38,14 +43,18 @@ const routes: Routes = [
     MatCheckboxModule,
     MatIconModule,
     MatInputModule,
+    MatDialogModule,
+    MatTooltipModule,
     MatSliderModule,
     MatButtonModule,
+    MatTableModule,
     MatGridListModule,
     MatCardModule,
     MatSnackBarModule,
   ],
   providers: [
-    BinsResolverService
+    BinsResolverService,
+    WorkerResolverService
   ]
 })
 export class OverviewModule {}
