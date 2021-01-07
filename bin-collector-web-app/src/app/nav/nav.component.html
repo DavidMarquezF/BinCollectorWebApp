@@ -15,12 +15,15 @@
       <a mat-list-item routerLink="/overview/overview"
         ><mat-icon class="item-icon">map</mat-icon>Overview</a
       >
-      <a mat-list-item routerLink="/overview/workers"
+      <ng-container *ngIf="isAdmin$ | async">
+        <a mat-list-item routerLink="/overview/workers"
         ><mat-icon class="item-icon">people</mat-icon>Workers</a
       >
       <a mat-list-item routerLink="/overview/route-planner"
         ><mat-icon class="item-icon">multiple_stop</mat-icon>Routes</a
       >
+      </ng-container>
+      
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

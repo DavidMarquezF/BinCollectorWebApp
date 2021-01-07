@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 })
 export class NavComponent {
 
+
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
@@ -19,8 +20,11 @@ export class NavComponent {
     );
     
   onAuth$: Observable<boolean>;
+  isAdmin$: Observable<boolean>;
+  
   constructor(private breakpointObserver: BreakpointObserver, private _authService: AuthService, private _router: Router) {
-    this.onAuth$ = this._authService.onLoggedInOut$
+    this.onAuth$ = this._authService.onLoggedInOut$;
+    this.isAdmin$ = this._authService.userRole$.pipe(map(u => u === "admin"));
   }
 
 

@@ -21,11 +21,12 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip'; 
 import { WorkerResolverService } from './worker-resolver.service';
 import {MatTableModule} from '@angular/material/table';
+import { AdminGuard } from '../core/guards/admin-guard.guard';
 
 const routes: Routes = [
   { path: 'overview', component: OverviewComponent, resolve: {bins: BinsResolverService} },
-  {path: 'route-planner', component: RoutesPlanningComponent, resolve: {bins: BinsResolverService}},
-  {path: 'workers', component: WorkersComponent, resolve: {workers: WorkerResolverService}},
+  {path: 'route-planner', component: RoutesPlanningComponent, resolve: {bins: BinsResolverService}, canActivate: [AdminGuard]},
+  {path: 'workers', component: WorkersComponent, resolve: {workers: WorkerResolverService}, canActivate: [AdminGuard]},
   {
     path: '**',
     redirectTo: 'overview',
